@@ -1,1 +1,42 @@
 /* your css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+}
+
+main {
+  /* placement within body */
+  display: flex;
+
+  /* columns */  
+  flex-direction: row;
+  
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+section.controls {
+  order: 1;
+  flex-basis: 30vw;
+  
+  border: 1px solid red;
+}
+
+section.feed {
+  order: 2;
+  flex: 1;
+  
+  border: 1px solid blue;
+}
+
+img.media-object {
+  width: 40px;
+}

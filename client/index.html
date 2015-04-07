@@ -1,29 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="newsie">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>Newsie</title>
-  <link rel="stylesheet" href="basic.css">
-  <!-- your css
-  <link rel="stylesheet" href="style.css"> -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- your js -->
+  <script src="https://code.angularjs.org/1.4.0-beta.6/angular.js"></script>
+  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+  <script src="app.js"></script>
 </head>
 <body>
   <header>
     <h2 class="logo">Newsie</h2>
   </header>
   <main>
-    <section class="controls">
+    <section class="controls" ng-controller="SidebarController as sidebar">
       <!-- all your controls for filtering and and sorting go here -->
+      <div class="form-group">
+        <label for="searchInput">Search feed</label>
+        <input id="searchInput" name="searchInput" type="text" ng-model="sidebar.searchInput" ng-model-options="{debounce: sidebar.debounceDelay, getterSetter: true}">
+      </div>
     </section>
-    <section class="feed">
+    <section class="feed" ng-controller="NewsFeedController as feed">
+      <div ng-if="feed.loading">
+        Loading...
+      </div>
+      <div ng-if="!feed.loading">
+        <div class="feed-item" ng-repeat="item in feed.items | filter:feed.filteredItems">
+          <div class="media">
+            <div class="media-left">
+              <a href="#">
+                <img class="media-object" ng-src="{{item.user.image}}">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">
+                <span class="feed-user-name" ng-bind-template="{{item.user.firstName}} {{item.user.lastName}}"></span>
+                <small ng-bind="item.time"></small>
+              </h4>
+              <p ng-bind="item.snippet"></p>
+              <p>
+                <a class="label label-default" href ng-bind="item.eventType" ng-click="feed.filterByEventType(item.eventType)"></a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- news feed items go here -->
     <!--   no matter how you choose to create a feed item (li, directive, component, etc)
     make sure to place the 'feed-item' class on it -->
     </section>
   </main>
   <script src="gregbot.js"></script>
-  <!-- your js -->
-  <script src="app.js"></script>
 </body>
 </html>
